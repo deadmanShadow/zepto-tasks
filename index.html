@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Font Upload & List</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6"
+  >
+    <!-- first section -->
+    <div class="w-96 p-6 bg-white shadow-md rounded-md mb-6">
+      <div
+        id="dropzone"
+        class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer"
+      >
+        <input type="file" id="fileInput" class="hidden" accept=".ttf" />
+        <svg
+          class="mx-auto w-12 h-12 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 16v-8m0 0l-4 4m4-4l4 4M4 16c0 3.314 2.686 6 6 6h4c3.314 0 6-2.686 6-6v-4c0-3.314-2.686-6-6-6H10C6.686 6 4 8.686 4 12v4z"
+          ></path>
+        </svg>
+        <p class="text-gray-500 mt-2">
+          <span class="font-semibold text-blue-500">Click to upload</span> or
+          drag and drop
+        </p>
+        <p class="text-sm text-gray-400">Only TTF File Allowed</p>
+      </div>
+      <p id="fileName" class="mt-2 text-center text-sm text-green-600"></p>
+    </div>
+    <!-- second sections -->
+    <!-- uploaded fonts -->
+    <div class="w-full max-w-2xl bg-white shadow-md rounded-md p-6">
+      <h2 class="text-xl font-semibold">Our Fonts</h2>
+      <p class="text-gray-500 text-sm mb-4">Browse a list of uploaded fonts.</p>
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="border-b">
+            <th class="text-left p-2">FONT NAME</th>
+            <th class="text-left p-2">PREVIEW</th>
+            <th class="p-2">ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="fontList">
+          <!-- in js -->
+        </tbody>
+      </table>
+    </div>
+    <script src="js/index.js"></script>
+  </body>
+</html>
