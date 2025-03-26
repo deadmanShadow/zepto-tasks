@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Font Upload & List</title>
+    <title>Font Manager</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
@@ -17,33 +17,17 @@
         class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer"
       >
         <input type="file" id="fileInput" class="hidden" accept=".ttf" />
-        <svg
-          class="mx-auto w-12 h-12 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 16v-8m0 0l-4 4m4-4l4 4M4 16c0 3.314 2.686 6 6 6h4c3.314 0 6-2.686 6-6v-4c0-3.314-2.686-6-6-6H10C6.686 6 4 8.686 4 12v4z"
-          ></path>
-        </svg>
         <p class="text-gray-500 mt-2">
           <span class="font-semibold text-blue-500">Click to upload</span> or
           drag and drop
         </p>
         <p class="text-sm text-gray-400">Only TTF File Allowed</p>
       </div>
-      <p id="fileName" class="mt-2 text-center text-sm text-green-600"></p>
     </div>
-    <!-- second sections -->
-    <!-- uploaded fonts -->
-    <div class="w-full max-w-2xl bg-white shadow-md rounded-md p-6">
+
+    <!-- second section -->
+    <div class="w-full max-w-2xl bg-white shadow-md rounded-md p-6 mb-6">
       <h2 class="text-xl font-semibold">Our Fonts</h2>
-      <p class="text-gray-500 text-sm mb-4">Browse a list of uploaded fonts.</p>
       <table class="w-full border-collapse">
         <thead>
           <tr class="border-b">
@@ -52,9 +36,42 @@
             <th class="p-2">ACTION</th>
           </tr>
         </thead>
-        <tbody id="fontList">
-          <!-- in js -->
-        </tbody>
+        <tbody id="fontList"></tbody>
+      </table>
+    </div>
+
+    <!-- third sections -->
+    <div class="w-full max-w-3xl bg-white shadow-md rounded-md p-6 mb-6">
+      <h2 class="text-xl font-semibold">Create Font Group</h2>
+      <input
+        type="text"
+        id="groupTitle"
+        placeholder="Group Title"
+        class="w-full p-2 border rounded mb-4"
+      />
+      <div id="fontGroupContainer"></div>
+      <div class="flex justify-between">
+        <button id="addRow" class="p-2 bg-blue-500 text-white rounded">
+          + Add Row
+        </button>
+        <button id="createGroup" class="p-2 bg-green-500 text-white rounded">
+          Create
+        </button>
+      </div>
+    </div>
+
+    <!-- final section -->
+    <div class="w-full max-w-3xl bg-white shadow-md rounded-md p-6">
+      <h2 class="text-xl font-semibold">Our Font Groups</h2>
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="border-b">
+            <th class="text-left p-2">NAME</th>
+            <th class="text-left p-2">FONTS</th>
+            <th class="p-2">ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="fontGroupList"></tbody>
       </table>
     </div>
     <script src="js/index.js"></script>
