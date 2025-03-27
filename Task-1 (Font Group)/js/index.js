@@ -24,23 +24,36 @@ document.addEventListener("DOMContentLoaded", () => {
       Swal.fire("Error", "Only TTF files are allowed.", "error");
     }
   }
+
   function saveFont(fontName, fontData) {
     let fonts = JSON.parse(localStorage.getItem("uploadedFonts")) || [];
     fonts.push({ name: fontName, data: fontData });
     localStorage.setItem("uploadedFonts", JSON.stringify(fonts));
   }
+
   function loadFonts() {
     let fonts = JSON.parse(localStorage.getItem("uploadedFonts")) || [];
     fonts.forEach((font) => displayFont(font.name, font.data));
   }
   function displayFont(fontName, fontData) {
+    const fontStyle = document.createElement("style");
+    fontStyle.innerHTML = `
+        @font-face {
+            font-family: '${fontName}';
+            src: url('${fontData}') format('truetype');
+        }
+    `;
+
+    document.head.appendChild(fontStyle);
+
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td class="p-2">${fontName}</td>
-      <td class="p-2" style="font-family: '${fontName}', sans-serif;">Example</td>
-      <td class="p-2 text-red-500 cursor-pointer delete-btn">Delete</td>
+        <td class="p-3 border">${fontName}</td>
+        <td class="p-3 border" style="font-family: '${fontName}', sans-serif;">Example Style</td>
+        <td class="p-3 border text-red-500 cursor-pointer delete-btn">Delete</td>
     `;
     fontList.appendChild(row);
+
     row.querySelector(".delete-btn").addEventListener("click", () => {
       Swal.fire({
         title: "Are you sure?",
@@ -53,16 +66,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }).then((result) => {
         if (result.isConfirmed) {
           deleteFont(fontName, row);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your font has been deleted successfully.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+          });
         }
       });
     });
   }
+
   function deleteFont(fontName, row) {
     let fonts = JSON.parse(localStorage.getItem("uploadedFonts")) || [];
     fonts = fonts.filter((font) => font.name !== fontName);
     localStorage.setItem("uploadedFonts", JSON.stringify(fonts));
     row.remove();
   }
+
   addRowBtn.addEventListener("click", () => {
     const fonts = JSON.parse(localStorage.getItem("uploadedFonts")) || [];
     if (fonts.length === 0) {
@@ -72,50 +93,76 @@ document.addEventListener("DOMContentLoaded", () => {
         "error"
       );
     }
-    const select = document.createElement("select");
-    select.classList.add("w-full", "p-2", "border", "rounded", "mb-2");
 
-    fonts.forEach((font) => {
-      const option = document.createElement("option");
-      option.value = font.name;
-      option.textContent = font.name;
-      select.appendChild(option);
-    });
-
-    fontGroupContainer.appendChild(select);
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td class="p-3 border"><input type="text" class="w-full p-2 border rounded" placeholder="Font Name" /></td>
+      <td class="p-3 border">
+        <select class="w-full p-2 border rounded">
+          ${fonts
+            .map((font) => `<option value="${font.name}">${font.name}</option>`)
+            .join("")}
+        </select>
+      </td>
+      <td class="p-3 border">
+        <select class="w-full p-2 border rounded">
+          <option value="1.00">1.00</option>
+          <option value="1.25">1.25</option>
+          <option value="1.50">1.50</option>
+        </select>
+      </td>
+      <td class="p-3 border">
+        <select class="w-full p-2 border rounded">
+          <option value="0">0</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+        </select>
+      </td>
+      <td class="p-3 border text-red-500 cursor-pointer remove-row">Delete</td>
+    `;
+    fontGroupContainer.appendChild(row);
+    row
+      .querySelector(".remove-row")
+      .addEventListener("click", () => row.remove());
   });
+
   createGroupBtn.addEventListener("click", () => {
     const groupName = groupTitleInput.value.trim();
     if (!groupName)
       return Swal.fire("Error", "Enter a valid group name", "error");
-
-    const selectedFonts = [...fontGroupContainer.querySelectorAll("select")]
-      .map((select) => select.value)
+    const selectedFonts = [...fontGroupContainer.querySelectorAll("tr")]
+      .map((row) => row.querySelector("select").value)
       .filter((font) => font !== "");
-
-    if (selectedFonts.length === 0) {
-      return Swal.fire("Error", "Select at least one font", "error");
+    if (selectedFonts.length < 2) {
+      return Swal.fire("Error", "select at least two fonts", "error");
     }
     saveFontGroup(groupName, selectedFonts);
     displayFontGroup(groupName, selectedFonts);
     groupTitleInput.value = "";
     fontGroupContainer.innerHTML = "";
   });
+
+  //save the font group
   function saveFontGroup(groupName, fontNames) {
     let groups = JSON.parse(localStorage.getItem("fontGroups")) || [];
     groups.push({ name: groupName, fonts: fontNames });
     localStorage.setItem("fontGroups", JSON.stringify(groups));
   }
+
+  //load the font group
   function loadFontGroups() {
     let groups = JSON.parse(localStorage.getItem("fontGroups")) || [];
     groups.forEach((group) => displayFontGroup(group.name, group.fonts));
   }
+
+  //display the font group
   function displayFontGroup(groupName, fontNames) {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td class="p-2">${groupName}</td>
-      <td class="p-2">${fontNames.join(", ")}</td>
-      <td class="p-2 text-red-500 cursor-pointer delete-group">Delete</td>
+      <td class="p-3 border">${groupName}</td>
+      <td class="p-3 border">${fontNames.join(", ")}</td>
+      <td class="p-3 border">${fontNames.length}</td>
+      <td class="p-3 border text-red-500 cursor-pointer delete-group">Delete</td>
     `;
     fontGroupList.appendChild(row);
     row.querySelector(".delete-group").addEventListener("click", () => {
@@ -130,10 +177,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }).then((result) => {
         if (result.isConfirmed) {
           deleteFontGroup(groupName, row);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your font group has been deleted successfully.",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+          });
         }
       });
     });
   }
+
   function deleteFontGroup(groupName, row) {
     let groups = JSON.parse(localStorage.getItem("fontGroups")) || [];
     groups = groups.filter((group) => group.name !== groupName);

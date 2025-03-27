@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Font Manager</title>
+    <title>Font Group</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
@@ -24,7 +24,6 @@
         <p class="text-sm text-gray-400">Only TTF File Allowed</p>
       </div>
     </div>
-
     <!-- second section -->
     <div class="w-full max-w-2xl bg-white shadow-md rounded-md p-6 mb-6">
       <h2 class="text-xl font-semibold">Our Fonts</h2>
@@ -39,7 +38,6 @@
         <tbody id="fontList"></tbody>
       </table>
     </div>
-
     <!-- third sections -->
     <div class="w-full max-w-3xl bg-white shadow-md rounded-md p-6 mb-6">
       <h2 class="text-xl font-semibold">Create Font Group</h2>
@@ -50,16 +48,22 @@
         class="w-full p-2 border rounded mb-4"
       />
       <div id="fontGroupContainer"></div>
-      <div class="flex justify-between">
-        <button id="addRow" class="p-2 bg-blue-500 text-white rounded">
+      <div class="flex justify-between mt-4">
+        <button
+          id="addRow"
+          class="p-2 border-2 border-green-500 text-black bg-white rounded hover:bg-green-500 hover:text-white transition py-2 px-8"
+        >
           + Add Row
         </button>
-        <button id="createGroup" class="p-2 bg-green-500 text-white rounded">
+        <button
+          id="createGroup"
+          class="bg-green-500 text-white rounded py-2 px-10"
+          style="color: oklch(0.262 0.051 172.552)"
+        >
           Create
         </button>
       </div>
     </div>
-
     <!-- final section -->
     <div class="w-full max-w-3xl bg-white shadow-md rounded-md p-6">
       <h2 class="text-xl font-semibold">Our Font Groups</h2>
@@ -68,6 +72,7 @@
           <tr class="border-b">
             <th class="text-left p-2">NAME</th>
             <th class="text-left p-2">FONTS</th>
+            <th class="text-left p-2">COUNT</th>
             <th class="p-2">ACTION</th>
           </tr>
         </thead>
