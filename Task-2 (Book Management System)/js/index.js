@@ -2,10 +2,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const bookContainer = document.getElementById("book-container");
   const searchInput = document.getElementById("search-input");
   const wishlistCount = document.getElementById("wishlist-count");
+  const paginationContainer = document.getElementById("pagination-container");
+
   let booksData = [];
   let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  let currentPage = 1;
+  const booksPerPage = 8;
 
-  // Fetch books from the Gutenberg API
   async function fetchBooks() {
     try {
       const response = await fetch("https://gutendex.com/books");
@@ -13,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
       booksData = data.results;
       renderBooks(booksData);
 
-      // Load wishlist books only after booksData is populated
       if (window.location.pathname.includes("wishlist.html")) {
         loadWishlistBooks();
       }
@@ -22,10 +24,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Render books in the UI
   function renderBooks(books) {
     bookContainer.innerHTML = "";
-    books.forEach((book) => {
+    paginationContainer.innerHTML = "";
+
+    const startIndex = (currentPage - 1) * booksPerPage;
+    const endIndex = startIndex + booksPerPage;
+    const paginatedBooks = books.slice(startIndex, endIndex);
+
+    paginatedBooks.forEach((book) => {
       const isWishlisted = wishlist.includes(book.id);
       const bookCard = document.createElement("div");
       bookCard.className =
@@ -48,10 +55,12 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
       bookContainer.appendChild(bookCard);
     });
+
     attachWishlistListeners();
+
+    renderPagination(books.length);
   }
 
-  // Attach event listeners to wishlist buttons
   function attachWishlistListeners() {
     document.querySelectorAll(".wishlist-btn").forEach((button) => {
       button.addEventListener("click", function () {
@@ -61,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Toggle wishlist
   function toggleWishlist(bookId, button) {
     if (wishlist.includes(bookId)) {
       wishlist = wishlist.filter((id) => id !== bookId);
@@ -78,7 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
     updateWishlistCount();
   }
 
-  // Update wishlist count in navbar (dynamic)
   function updateWishlistCount() {
     const count = wishlist.length;
     if (wishlistCount) {
@@ -86,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Load wishlist books in wishlist page
   function loadWishlistBooks() {
     if (window.location.pathname.includes("wishlist.html")) {
       const wishlistBooks = booksData.filter((book) =>
@@ -101,18 +107,36 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Search books dynamically
+  function renderPagination(totalBooks) {
+    const totalPages = Math.ceil(totalBooks / booksPerPage);
+
+    for (let i = 1; i <= totalPages; i++) {
+      const pageButton = document.createElement("button");
+      pageButton.textContent = i;
+      pageButton.className = `px-4 py-2 mx-1 rounded border transition-all ${
+        currentPage === i
+          ? "bg-blue-600 text-white"
+          : "bg-gray-200 hover:bg-gray-300"
+      }`;
+      pageButton.addEventListener("click", () => {
+        currentPage = i;
+        renderBooks(booksData);
+      });
+      paginationContainer.appendChild(pageButton);
+    }
+  }
+
   if (searchInput) {
     searchInput.addEventListener("input", function () {
       const searchTerm = searchInput.value.toLowerCase();
       const filteredBooks = booksData.filter((book) =>
         book.title.toLowerCase().includes(searchTerm)
       );
+      currentPage = 1;
       renderBooks(filteredBooks);
     });
   }
 
-  // Fetch books and initialize wishlist count
   fetchBooks().then(() => {
     updateWishlistCount();
   });
