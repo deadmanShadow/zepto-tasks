@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const bookContainer = document.getElementById("book-container");
   const wishlistCount = document.getElementById("wishlist-count");
-  const wishlistCountMobile = document.getElementById("wishlist-count-mobile"); // For mobile count
+  const wishlistCountMobile = document.getElementById("wishlist-count-mobile");
   const paginationContainer = document.getElementById("pagination-container");
 
   let booksData = [];
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
               ${
                 wishlist.includes(book.id)
                   ? "Remove from Wishlist 👎"
-                  : "Add to Wishlist 👍"
+                  : "Add to Wishlist ❤️"
               }
             </button>
           `;
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
       wishlist = wishlist.filter((id) => id !== bookId);
       button.classList.remove("bg-red-500", "text-white");
       button.classList.add("bg-gray-200", "hover:bg-gray-300");
-      button.textContent = "Add to Wishlist 👍";
+      button.textContent = "Add to Wishlist ❤️";
     } else {
       wishlist.push(bookId);
       button.classList.add("bg-red-500", "text-white");

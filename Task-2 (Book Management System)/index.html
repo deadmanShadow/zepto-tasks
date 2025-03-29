@@ -8,11 +8,12 @@
   </head>
   <body class="bg-gray-100 text-gray-900">
     <nav
-      class="bg-blue-600 text-white py-4 px-6 flex justify-between items-center transition-all duration-300 ease-in-out"
+      class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 px-6 flex justify-between items-center shadow-lg transition-all duration-300 ease-in-out"
     >
-      <a href="index.html" class="text-2xl font-bold">Book Management System</a>
+      <a href="index.html" class="text-2xl font-bold text-white"
+        >Book Management System</a
+      >
 
-      <!-- Mobile menu button -->
       <div class="lg:hidden">
         <button
           id="mobile-menu-button"
@@ -35,43 +36,44 @@
         </button>
       </div>
 
-      <!-- Desktop links -->
-      <div class="hidden lg:flex gap-6">
+      <div class="hidden lg:flex gap-8">
         <a
           href="index.html"
-          class="hover:text-gray-300 transition-all duration-300 ease-in-out"
+          class="text-white hover:text-purple-200 transition-all duration-300 ease-in-out"
           >Home</a
         >
         <a
           href="wishlist.html"
-          class="hover:text-gray-300 transition-all duration-300 ease-in-out"
+          class="text-white hover:text-purple-200 transition-all duration-300 ease-in-out"
         >
           Wishlist <span id="wishlist-count">(0)</span>
         </a>
-        <a class="hover:text-gray-300 transition-all duration-300 ease-in-out"
+        <a
+          href="contact.html"
+          class="text-white hover:text-purple-200 transition-all duration-300 ease-in-out"
           >Contact</a
         >
       </div>
     </nav>
 
-    <!-- Mobile menu -->
     <div
       id="mobile-menu"
-      class="lg:hidden hidden bg-blue-600 text-white p-4 transition-all duration-300 ease-in-out transform translate-y-4 opacity-0"
+      class="lg:hidden hidden bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 transition-all duration-300 ease-in-out transform translate-y-4 opacity-0"
     >
       <a
         href="index.html"
-        class="block py-2 hover:bg-blue-500 transition-all duration-300 ease-in-out"
+        class="block py-2 hover:bg-purple-500 transition-all duration-300 ease-in-out"
         >Home</a
       >
       <a
         href="wishlist.html"
-        class="block py-2 hover:bg-blue-500 transition-all duration-300 ease-in-out"
+        class="block py-2 hover:bg-purple-500 transition-all duration-300 ease-in-out"
       >
         Wishlist <span id="wishlist-count-mobile">(0)</span>
       </a>
       <a
-        class="block py-2 hover:bg-blue-500 transition-all duration-300 ease-in-out"
+        href="contact.html"
+        class="block py-2 hover:bg-purple-500 transition-all duration-300 ease-in-out"
         >Contact</a
       >
     </div>
@@ -82,12 +84,12 @@
           type="text"
           id="search-input"
           placeholder="Search books..."
-          class="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded"
+          class="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
         />
 
         <select
           id="genre-filter"
-          class="w-full md:w-1/4 px-4 py-2 border border-gray-300 rounded"
+          class="w-full md:w-1/4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
         >
           <option value="">All Genres</option>
         </select>
@@ -101,15 +103,11 @@
 
     <div id="pagination-container" class="flex justify-center my-6"></div>
 
-    <script src="js/index.js"></script>
-
     <script>
-      // Mobile menu toggle with animation
       const mobileMenuButton = document.getElementById("mobile-menu-button");
       const mobileMenu = document.getElementById("mobile-menu");
 
       mobileMenuButton.addEventListener("click", () => {
-        // Toggle the mobile menu visibility and animation
         mobileMenu.classList.toggle("hidden");
         mobileMenu.classList.toggle("opacity-100");
         mobileMenu.classList.toggle("translate-y-0");
@@ -117,5 +115,6 @@
         mobileMenu.classList.toggle("translate-y-4");
       });
     </script>
+    <script src="js/index.js"></script>
   </body>
 </html>

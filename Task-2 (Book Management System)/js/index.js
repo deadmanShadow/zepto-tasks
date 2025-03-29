@@ -90,22 +90,22 @@ document.addEventListener("DOMContentLoaded", function () {
       const bookCard = document.createElement("div");
       bookCard.className =
         "bg-white p-4 rounded shadow-md text-center flex flex-col items-center opacity-0 transform transition-all duration-300";
+
       bookCard.innerHTML = `
-        <img src="${book.formats["image/jpeg"]}" alt="${
+<img src="${book.formats["image/jpeg"]}" alt="${
         book.title
       }" class="w-full h-48 object-cover mb-4 rounded">
-        <h3 class="text-lg font-semibold mb-2">${book.title}</h3>
-        <p class="text-gray-600 mb-4">${book.authors
-          .map((a) => a.name)
-          .join(", ")}</p>
-       <button class="wishlist-btn mt-auto w-full px-4 py-2 rounded transition-all duration-300 ${
-         isWishlisted
-           ? "bg-red-500 text-white hover:bg-red-600 focus:outline-2 focus:outline-offset-2 focus:outline-red-500 active:bg-red-700"
-           : "bg-gray-200 hover:bg-gray-300 focus:outline-2 focus:outline-offset-2 focus:outline-gray-500 active:bg-gray-400"
-       }" data-id="${book.id}">
-        ${isWishlisted ? "Remove from Wishlist 👎" : "Add to Wishlist 👍"}
+<h3 class="text-lg font-semibold mb-2">${book.title}</h3>
+<p class="text-gray-600 mb-4">${book.authors.map((a) => a.name).join(", ")}</p>
+<button class="wishlist-btn mt-auto w-full px-4 py-2 rounded transition-all duration-300 ${
+        isWishlisted
+          ? "bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 focus:outline-2 focus:outline-offset-2 focus:outline-red-500 active:bg-red-700 transform scale-105"
+          : "bg-gradient-to-r from-gray-300 to-gray-400 text-black hover:from-gray-400 hover:to-gray-500 focus:outline-2 focus:outline-offset-2 focus:outline-gray-500 active:bg-gray-500 transform scale-105"
+      }" data-id="${book.id}">
+  ${isWishlisted ? "Remove from Wishlist 👎" : "Add to Wishlist ❤️"}
 </button>
-      `;
+`;
+
       setTimeout(() => {
         bookCard.classList.add("opacity-100");
         bookCard.classList.remove("opacity-0");
@@ -130,15 +130,58 @@ document.addEventListener("DOMContentLoaded", function () {
   function toggleWishlist(bookId, button) {
     if (wishlist.includes(bookId)) {
       wishlist = wishlist.filter((id) => id !== bookId);
-      button.classList.remove("bg-red-500", "text-white");
-      button.classList.add("bg-gray-200", "hover:bg-gray-300");
-      button.textContent = "Add to Wishlist 👍";
+
+      button.classList.remove(
+        "bg-red-500",
+        "text-white",
+        "bg-gradient-to-r",
+        "from-violet-500",
+        "to-violet-600",
+        "bg-lime-500",
+        "hover:bg-lime-600",
+        "focus:outline-lime-500"
+      );
+      button.classList.add(
+        "bg-gray-200",
+        "text-black",
+        "hover:bg-gray-300",
+        "focus:outline-gray-500"
+      );
+      button.textContent = "Add to Wishlist ❤️";
+      button.style.transition = "all 0.3s ease-in-out";
     } else {
       wishlist.push(bookId);
-      button.classList.add("bg-red-500", "text-white");
-      button.classList.remove("bg-gray-200", "hover:bg-gray-300");
-      button.textContent = "Remove from Wishlist 👎";
+
+      button.classList.add(
+        "bg-lime-500",
+        "text-white",
+        "hover:bg-lime-600",
+        "focus:outline-lime-500"
+      );
+      button.classList.remove(
+        "bg-gray-200",
+        "hover:bg-gray-300",
+        "focus:outline-gray-500"
+      );
+      button.textContent = "Removing from Wishlist...";
+
+      setTimeout(() => {
+        button.classList.add(
+          "bg-red-500",
+          "bg-gradient-to-r",
+          "from-red-500",
+          "to-red-600"
+        );
+        button.classList.remove(
+          "bg-lime-500",
+          "hover:bg-lime-600",
+          "focus:outline-lime-500"
+        );
+        button.textContent = "Remove from Wishlist 👎";
+        button.style.transition = "all 0.3s ease-in-out";
+      }, 300);
     }
+
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
     updateWishlistCount();
   }
