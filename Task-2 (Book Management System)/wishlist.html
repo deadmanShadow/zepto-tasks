@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home | Book Management System</title>
+    <title>Wishlist | Book Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-100 text-gray-900">
@@ -19,27 +19,14 @@
         <a class="hover:text-gray-300">Contact</a>
       </div>
     </nav>
-    <div class="container mx-auto p-6">
-      <div class="flex flex-col md:flex-row gap-4">
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search books..."
-          class="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded"
-        />
 
-        <select
-          id="genre-filter"
-          class="w-full md:w-1/4 px-4 py-2 border border-gray-300 rounded"
-        >
-          <option value="">All Genres</option>
-        </select>
-      </div>
+    <div class="container mx-auto p-6">
+      <h2 class="text-xl font-semibold mb-4">Your Wishlist</h2>
+      <div
+        id="book-container"
+        class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6"
+      ></div>
     </div>
-    <div
-      id="book-container"
-      class="container mx-auto p-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6"
-    ></div>
     <script src="js/index.js"></script>
   </body>
 </html>
